@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 def fizzbuzz(nums)
   (1..nums).each do |num|
     if num % 3 == 0 && num % 5 == 0
