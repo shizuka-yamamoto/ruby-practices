@@ -44,12 +44,8 @@ puts week_day.join(" ")
   elsif x.day == 1 && x.wday == 6
     print blank * 6
   end
-
-  if x.day <= 9  # 1桁のときは、数字の左右にスペースを入れる
-    print " #{x.day.to_s} "
-  else
-    print "#{x.day.to_s} "  # 2桁のときは、数字の右にスペースを入れる
-  end
+  
+  print "#{x.day.to_s} ".rjust(3) # 日にちを右寄せして表示する
   puts "\n" if x.saturday?  # 土曜日の後に改行を入れる
 end
 
