@@ -31,20 +31,7 @@ puts week_day.join(" ")
 (first_day..last_day).each do |x|
   # 初日の曜日に合わせてスペースを入れる
   blank = "   "
-  if x.day == 1 && x.wday == 1
-    print blank
-  elsif x.day == 1 && x.wday == 2
-    print blank * 2
-  elsif x.day == 1 && x.wday == 3
-    print blank * 3
-  elsif x.day == 1 && x.wday == 4
-    print blank * 4
-  elsif x.day == 1 && x.wday == 5
-    print blank * 5
-  elsif x.day == 1 && x.wday == 6
-    print blank * 6
-  end
-  
+  print blank *= x.wday if x.day == 1
   print "#{x.day.to_s} ".rjust(3) # 日にちを右寄せして表示する
   puts "\n" if x.saturday?  # 土曜日の後に改行を入れる
 end
