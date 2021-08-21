@@ -30,19 +30,19 @@ puts week_day.join(" ")
 # カレンダーを表示する
 (first_day..last_day).each do |x|
   # 初日の曜日に合わせてスペースを入れる
-  brank = "   "
+  blank = "   "
   if x.day == 1 && x.wday == 1
-    print brank
+    print blank
   elsif x.day == 1 && x.wday == 2
-    print brank * 2
+    print blank * 2
   elsif x.day == 1 && x.wday == 3
-    print brank * 3
+    print blank * 3
   elsif x.day == 1 && x.wday == 4
-    print brank * 4
+    print blank * 4
   elsif x.day == 1 && x.wday == 5
-    print brank * 5
+    print blank * 5
   elsif x.day == 1 && x.wday == 6
-    print brank * 6
+    print blank * 6
   end
 
   if x.day <= 9  # 1桁のときは、数字の左右にスペースを入れる
