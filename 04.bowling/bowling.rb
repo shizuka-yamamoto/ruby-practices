@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 score = ARGV[0]
 scores = score.split(',')
 
@@ -19,17 +21,17 @@ end
 point = 0
 frames.each_with_index do |frame, i|
   point += frame.sum
-  
-  if i < 9 # 加算
-    point += frames[i + 1][0] if frame[0] + frame[1] == 10 && frame[0] != 10 # スペア
-    if frame[0] == 10 # ストライク
-      point += frames[i + 1][0]
-      if frames[i + 1][0] == 10
-        point += frames[i + 2][0]
-      else
-        point += frames[i + 1][1]
-      end
-    end
-  end
+
+  next unless i < 9 # 加点
+
+  point += frames[i + 1][0] if frame[0] + frame[1] == 10 && frame[0] != 10 # スペア
+  next unless frame[0] == 10 # ストライク
+
+  point += frames[i + 1][0]
+  point += if frames[i + 1][0] == 10
+             frames[i + 2][0]
+           else
+             frames[i + 1][1]
+           end
 end
 puts point
