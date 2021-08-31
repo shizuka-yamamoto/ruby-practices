@@ -1,14 +1,15 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
 require 'optparse'
 require 'etc'
 
 options = ARGV.getopts('a', 'l', 'r')
-files = options['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob("*")
+files = options['a'] ? Dir.glob('*', File::FNM_DOTMATCH) : Dir.glob('*')
 files = files.reverse if options['r']
 
 # 基準なる行数
-line_count = if (files.size % 3 == 0)
+line_count = if (files.size % 3).zero?
                files.size / 3
              else
                files.size / 3 + 1
@@ -17,14 +18,14 @@ line_count = if (files.size % 3 == 0)
 # transposeを使うために一時的な配列の作成
 temporary_array = files.each_slice(line_count).to_a
 temporary_array.each do |line|
-  if line.size < line_count
-    (line_count - line.size).times do
-      line << ' '
-    end
+  next unless line.size < line_count
+
+  (line_count - line.size).times do
+    line << ' '
   end
 end
 
-filename_length = files.map {|file| file.length }
+filename_length = files.map(&:length)
 max_filename_length = filename_length.max
 
 unless options['l']
@@ -61,8 +62,8 @@ if options['l']
     end
   end
 
-  file_blocks = files.map {|file| File.lstat(file).blocks} 
-  puts "total #{total = file_blocks.sum}"
+  file_blocks = files.map { |file| File.lstat(file).blocks }
+  puts "total #{file_blocks.sum}"
 
   files.each do |file|
     fs = File.lstat(file)
@@ -73,7 +74,7 @@ if options['l']
     owner_name = Etc.getpwuid(fs.uid).name
     group_name = Etc.getgrgid(fs.gid).name
     file_size = fs.size
-    time_stamp = fs.mtime.strftime("%m %d %H:%M")
+    time_stamp = fs.mtime.strftime('%m %d %H:%M')
     file_name = file
     puts "#{file_type}#{file_mode} #{number_of_links.to_s.rjust(3)} #{owner_name} #{group_name} #{file_size.to_s.rjust(4)} #{time_stamp} #{file_name}"
   end
