@@ -17,14 +17,14 @@ def main
 end
 
 def standard_output(files)
-   # 基準なる行数
+  # 基準なる行数
   line_count = if (files.size % 3).zero?
                  files.size / 3
                else
                  files.size / 3 + 1
                end
 
-   # transposeを使うために一時的な配列の作成
+  # transposeを使うために一時的な配列の作成
   temporary_array = files.each_slice(line_count).to_a
   temporary_array.each do |line|
     next unless line.size < line_count
