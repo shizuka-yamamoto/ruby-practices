@@ -59,7 +59,7 @@ def l_option(files)
     file_size = fs.size
     time_stamp = fs.mtime.strftime('%m %d %H:%M')
     file_name = file
-    puts "#{file_type}#{file_mode} #{number_of_links.to_s.rjust(3)} #{owner_name} #{group_name} #{file_size.to_s.rjust(4)} #{time_stamp} #{file_name}"
+    puts "#{file_type}#{file_mode}#{number_of_links.to_s.rjust(3)} #{owner_name}  #{group_name} #{file_size.to_s.rjust(5)} #{time_stamp} #{file_name}"
   end
 end
 
