@@ -24,14 +24,14 @@ def argument_input(l_option)
     puts " #{file_name}"
   end
 
-  if ARGV.size > 1 # ファイルが複数ある場合は合計を出力
-    print total_count_lines.to_s.rjust(8)
-    unless l_option['l']
-      print total_count_words.to_s.rjust(8)
-      print total_count_bytes.to_s.rjust(8)
-    end
-    puts ' total'
+  return unless ARGV.size > 1 # ファイルが複数ある場合は合計を出力
+
+  print total_count_lines.to_s.rjust(8)
+  unless l_option['l']
+    print total_count_words.to_s.rjust(8)
+    print total_count_bytes.to_s.rjust(8)
   end
+  puts ' total'
 end
 
 def standard_input(l_option)
@@ -42,10 +42,10 @@ end
 
 def calc_of_line_word_byte(l_option, text)
   print text.count("\n").to_s.rjust(8)
-  unless l_option['l']
-    print text.split(/\s+/).length.to_s.rjust(8)
-    print text.bytesize.to_s.rjust(8)
-  end
+  return if l_option['l']
+
+  print text.split(/\s+/).length.to_s.rjust(8)
+  print text.bytesize.to_s.rjust(8)
 end
 
 main
