@@ -6,13 +6,13 @@ require 'optparse'
 def main
   l_option = ARGV.getopts('l')
   if ARGV[0]
-    argument_input(l_option)
+    file_specification(l_option)
   else
     standard_input(l_option)
   end
 end
 
-def argument_input(l_option)
+def file_specification(l_option)
   total_count_lines = total_count_words = total_count_bytes = 0
 
   ARGV.each do |file_name|
