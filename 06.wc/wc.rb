@@ -6,6 +6,7 @@ require 'optparse'
 def main
   l_option = ARGV.getopts('l')
   inputs = parse_input
+  numbers = calc(inputs)
   format(numbers, l_option)
 end
 
@@ -27,8 +28,8 @@ def parse_input
   end
 end
 
-def calc(text)
-  text.map do |content|
+def calc(inputs)
+  inputs.map do |content|
     line = content[:text].count("\n")
     word = content[:text].split(/\s+/).length
     byte = content[:text].bytesize
