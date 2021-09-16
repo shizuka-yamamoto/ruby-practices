@@ -5,7 +5,7 @@ require 'optparse'
 
 def main
   l_option = ARGV.getopts('l')
-  parse_input
+  numbers = parse_input
   format(l_option)
 end
 
