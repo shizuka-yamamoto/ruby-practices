@@ -25,29 +25,16 @@ def parse_input
             },
             ]
   end
+  calc(text)
 end
 
-def calc
-  if ARGV.size >= 1 # ファイル指定あり
-    total_count_lines = total_count_words = total_count_bytes = 0
-    @count_number = @files.map do |file_name|
-      text = File.read(file_name)
-      total_count_lines += text.count("\n")
-      total_count_words += text.split(/\s+/).length
-      total_count_bytes += text.bytesize
-      line = text.count("\n")
-      word = text.split(/\s+/).length
-      byte = text.bytesize
-      [line, word, byte, file_name]
-    end
-    @total_count_lines = total_count_lines
-    @total_count_words = total_count_words
-    @total_count_bytes = total_count_bytes
-  else # 標準入力時
-    line = @text.count("\n")
-    word = @text.split(/\s+/).length
-    byte = @text.bytesize
-    @count_number = [[line, word, byte]]
+def calc(text)
+  text.map do |content|
+    line = content[:text].count("\n")
+    word = content[:text].split(/\s+/).length
+    byte = content[:text].bytesize
+    file_name = content[:file_name]
+    [line, word, byte, file_name]
   end
 end
 
