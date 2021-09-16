@@ -5,27 +5,26 @@ require 'optparse'
 
 def main
   l_option = ARGV.getopts('l')
-  numbers = parse_input
+  inputs = parse_input
   format(numbers, l_option)
 end
 
 def parse_input
-  text = if ARGV.size >= 1 # ファイル指定あり
-           ARGV.map do |file_name|
-             {
-               file_name: file_name,
-               text: File.read(file_name)
-             }
-           end
-         else
-           [
-             {
-               file_name: '',
-               text: $stdin.read
-             }
-           ]
-         end
-  calc(text)
+  if ARGV.size >= 1 # ファイル指定あり
+    ARGV.map do |file_name|
+      {
+        file_name: file_name,
+        text: File.read(file_name)
+      }
+    end
+  else
+    [
+      {
+        file_name: '',
+        text: $stdin.read
+      }
+    ]
+  end
 end
 
 def calc(text)
