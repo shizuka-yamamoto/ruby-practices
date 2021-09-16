@@ -10,21 +10,21 @@ def main
 end
 
 def parse_input
-  if ARGV.size >= 1 # ファイル指定あり
-    text = ARGV.map do |file_name|
-        {
-          file_name: file_name,
-          text: File.read(file_name)
-        }
-    end
-  else
-    text = [
-            {
-              file_name: "",
-              text: $stdin.read
-            },
-            ]
-  end
+  text = if ARGV.size >= 1 # ファイル指定あり
+           ARGV.map do |file_name|
+             {
+               file_name: file_name,
+               text: File.read(file_name)
+             }
+           end
+         else
+           [
+             {
+               file_name: '',
+               text: $stdin.read
+             }
+           ]
+         end
   calc(text)
 end
 
