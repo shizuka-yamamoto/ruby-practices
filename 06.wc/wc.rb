@@ -6,7 +6,7 @@ require 'optparse'
 def main
   l_option = ARGV.getopts('l')
   numbers = parse_input
-  format(l_option)
+  format(numbers, l_option)
 end
 
 def parse_input
@@ -38,22 +38,23 @@ def calc(text)
   end
 end
 
-def format(l_option)
-  @count_number.each do |content|
-    print content[0].to_s.rjust(8)
+def format(numbers, l_option)
+  numbers.each do |number|
+    print number[0].to_s.rjust(8)
     unless l_option['l']
-      print content[1].to_s.rjust(8)
-      print content[2].to_s.rjust(8)
+      print number[1].to_s.rjust(8)
+      print number[2].to_s.rjust(8)
     end
-    puts " #{content[3]}"
+    puts " #{number[3]}"
   end
 
-  return unless ARGV.size > 1 # ファイルが複数ある場合は合計を出力
+  return unless ARGV.size >= 2 # ファイルが複数ある場合は合計を出力
 
-  print @total_count_lines.to_s.rjust(8)
+  number = numbers.transpose
+  print number[0].sum.to_s.rjust(8)
   unless l_option['l']
-    print @total_count_words.to_s.rjust(8)
-    print @total_count_bytes.to_s.rjust(8)
+    print number[1].sum.to_s.rjust(8)
+    print number[2].sum.to_s.rjust(8)
   end
   puts ' total'
 end
