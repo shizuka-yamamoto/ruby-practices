@@ -5,47 +5,63 @@ require 'optparse'
 
 def main
   l_option = ARGV.getopts('l')
-  if ARGV[0]
-    file_specification(l_option)
+  parse_input # 入力処理
+  calc # データ収集
+  format(l_option) # 出力処理
+end
+
+def parse_input
+  if ARGV.size >= 1 # ファイル指定あり
+    @files = ARGV.map do |file_name|
+      file_name
+    end
   else
-    standard_input(l_option)
+    @text = $stdin.read   # 標準入力
   end
 end
 
-def file_specification(l_option)
-  total_count_lines = total_count_words = total_count_bytes = 0
+def calc
+  if ARGV.size >= 1 # ファイル指定あり
+    total_count_lines = total_count_words = total_count_bytes = 0
+    @count_number = @files.map do |file_name|
+      text = File.read(file_name)
+      total_count_lines += text.count("\n")
+      total_count_words += text.split(/\s+/).length
+      total_count_bytes += text.bytesize
+      line = text.count("\n")
+      word = text.split(/\s+/).length
+      byte = text.bytesize
+      [line, word, byte, file_name]
+    end
+    @total_count_lines = total_count_lines
+    @total_count_words = total_count_words
+    @total_count_bytes = total_count_bytes
+  else # 標準入力時
+    line = @text.count("\n")
+    word = @text.split(/\s+/).length
+    byte = @text.bytesize
+    @count_number = [[line, word, byte]]
+  end
+end
 
-  ARGV.each do |file_name|
-    text = File.read(file_name)
-    total_count_lines += text.count("\n")
-    total_count_words += text.split(/\s+/).length
-    total_count_bytes += text.bytesize
-    calc_of_line_word_byte(l_option, text)
-    puts " #{file_name}"
+def format(l_option)
+  @count_number.each do |content|
+    print content[0].to_s.rjust(8)
+    unless l_option['l']
+      print content[1].to_s.rjust(8)
+      print content[2].to_s.rjust(8)
+    end
+    puts " #{content[3]}"
   end
 
   return unless ARGV.size > 1 # ファイルが複数ある場合は合計を出力
 
-  print total_count_lines.to_s.rjust(8)
+  print @total_count_lines.to_s.rjust(8)
   unless l_option['l']
-    print total_count_words.to_s.rjust(8)
-    print total_count_bytes.to_s.rjust(8)
+    print @total_count_words.to_s.rjust(8)
+    print @total_count_bytes.to_s.rjust(8)
   end
   puts ' total'
-end
-
-def standard_input(l_option)
-  text = $stdin.read
-  calc_of_line_word_byte(l_option, text)
-  puts "\n"
-end
-
-def calc_of_line_word_byte(l_option, text)
-  print text.count("\n").to_s.rjust(8)
-  return if l_option['l']
-
-  print text.split(/\s+/).length.to_s.rjust(8)
-  print text.bytesize.to_s.rjust(8)
 end
 
 main
